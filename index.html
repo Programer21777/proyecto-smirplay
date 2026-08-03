@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Smirplay: transmisiones de fútbol en vivo, próximos partidos, goles y jugadores MVP."
+    >
+
+    <title>Smirplay | Fútbol en vivo</title>
+
+    <link rel="icon" href="smirplay kick.png">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- ===================== NAVEGACIÓN ===================== -->
+
+    <header class="header" id="header">
+        <nav class="navbar contenedor" aria-label="Navegación principal">
+
+            <a href="#inicio" class="marca">
+                <img
+                    src="smirplay kick.png"
+                    alt="Logotipo Smirplay"
+                >
+                
+                <div>
+                    <strong><span>SMIR</span>PLAY</strong>
+                    <small>Centro de control</small>
+                </div>
+            </a>
+
+            <button
+                class="boton-menu"
+                id="boton-menu"
+                type="button"
+                aria-label="Abrir menú"
+                aria-expanded="false"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="menu" id="menu">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#en-vivo">En vivo</a></li>
+                <li><a href="#anuncios">Anuncios</a></li>
+                <li><a href="#redes">Redes</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+        </nav>
+    </header>
+
+
+    <main>
+
+        <!-- ===================== PORTADA ===================== -->
+
+        <section class="hero" id="inicio">
+
+            <img
+                class="hero-fondo"
+                src="baner.png"
+                alt=""
+            >
+
+            <div class="hero-sombra"></div>
+
+            <div class="hero-contenido contenedor">
+
+                <p class="etiqueta">
+                    <span class="punto-vivo"></span>
+                    SIMULCAST OFICIAL
+                </p>
+
+                <h1>
+                    TRANSMISIONES DE
+                    <span>FÚTBOL EN VIVO</span>
+                </h1>
+
+                <p class="hero-descripcion">
+                    Vive cada partido en Kick y YouTube directamente desde
+                    el centro de control de Smirplay.
+                </p>
+
+                <div class="hero-botones">
+                    <a href="#en-vivo" class="boton boton-rojo">
+                        ▶ Ver transmisión
+                    </a>
+
+                    <a href="#anuncios" class="boton boton-oscuro">
+                        Próximos partidos
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ===================== EN VIVO ===================== -->
+
+        <section class="seccion" id="en-vivo">
+
+            <div class="contenedor">
+
+                <header class="titulo-seccion">
+                    <div>
+                        <p class="subtitulo">SEÑAL EN DIRECTO</p>
+                        <h2>ELIGE DÓNDE VER <span>EL PARTIDO</span></h2>
+                    </div>
+
+                    <p>
+                        Reproduce la transmisión directamente desde la página.
+                        Para evitar eco, utiliza únicamente un reproductor con sonido.
+                    </p>
+                </header>
+
+
+                <div class="reproductores">
+
+                    <!-- ===================== KICK ===================== -->
+
+                    <article class="tarjeta-reproductor">
+
+                        <header class="reproductor-encabezado">
+                            <div class="plataforma">
+                                <div class="icono-plataforma kick-color">K</div>
+
+                                <div>
+                                    <strong>Kick</strong>
+                                    <small>@Smirplay2</small>
+                                </div>
+                            </div>
+
+                            <span class="estado">
+                                <i></i>
+                                SEÑAL PRINCIPAL
+                            </span>
+                        </header>
+
+                        <div class="iframe-video">
+
+                            <!--
+                                EMBED DE KICK
+
+                                Este iframe ya está configurado para Smirplay2.
+
+                                Si cambia el usuario, modifica únicamente:
+                                smirplay2
+                            -->
+
+                            <iframe
+                                src="https://player.kick.com/smirplay2?autoplay=false"
+                                title="Transmisión de Smirplay2 en Kick"
+                                allow="autoplay; fullscreen; picture-in-picture"
+                                allowfullscreen
+                            ></iframe>
+
+                        </div>
+
+                        <footer class="reproductor-pie">
+                            <span>Reproductor oficial de Kick</span>
+
+                            <a
+                                href="https://kick.com/smirplay2"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Abrir canal ↗
+                            </a>
+                        </footer>
+
+                    </article>
+
+
+                    <!-- ===================== YOUTUBE ===================== -->
+
+                    <article class="tarjeta-reproductor">
+
+                        <header class="reproductor-encabezado">
+                            <div class="plataforma">
+                                <div class="icono-plataforma youtube-color">▶</div>
+
+                                <div>
+                                    <strong>YouTube</strong>
+                                    <small>@Smirplay</small>
+                                </div>
+                            </div>
+
+                            <span class="estado estado-rojo">
+                                <i></i>
+                                SIMULCAST
+                            </span>
+                        </header>
+
+                        <div class="iframe-video">
+                            <iframe
+                                src="https://www.youtube.com/watch?v=JgXrStQK64Y"
+                                title="Transmisión de Smirplay en YouTube"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen
+                            ></iframe>
+
+                        </div>
+
+                        <footer class="reproductor-pie">
+                            <span>Coloca el VIDEO_ID del directo</span>
+
+                            <a
+                                href="https://www.youtube.com/@Smirplay2"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Abrir canal ↗
+                            </a>
+                        </footer>
+
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===================== FACEBOOK / ANUNCIOS ===================== -->
+
+        <section class="seccion seccion-anuncios" id="anuncios">
+
+            <div class="contenedor">
+
+                <header class="titulo-seccion">
+                    <div>
+                        <p class="subtitulo">CARTELERA SMIRPLAY</p>
+                        <h2>PRÓXIMAS <span>TRANSMISIONES</span></h2>
+                    </div>
+
+                    <p>
+                        Consulta partidos, horarios y anuncios publicados
+                        directamente en Facebook.
+                    </p>
+                </header>
+
+
+                <div class="anuncios-grid">
+
+                    <article class="facebook-contenedor">
+
+                        <header>
+                            <div class="plataforma">
+                                <div class="icono-plataforma facebook-color">f</div>
+
+                                <div>
+                                    <strong>Facebook</strong>
+                                    <small>Smirplay2</small>
+                                </div>
+                            </div>
+                        </header>
+
+                        <div class="facebook-iframe">
+
+                            <!--
+                                EMBED DE FACEBOOK
+
+                                Este iframe está configurado para:
+                                facebook.com/Smirplay2
+                            -->
+
+                            <iframe
+                                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FSmirplay2&amp;tabs=timeline&amp;width=500&amp;height=650&amp;small_header=false&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true"
+                                title="Cartelera de Smirplay2 en Facebook"
+                                width="500"
+                                height="650"
+                                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                                allowfullscreen
+                            ></iframe>
+
+                        </div>
+                    </article>
+
+
+                    <aside class="anuncio-lateral">
+
+                        <img
+                            src="smirplay kick.png"
+                            alt="Escudo de Smirplay"
+                        >
+
+                        <p class="subtitulo">LA CANCHA NO ESPERA</p>
+
+                        <h3>ACTIVA LAS NOTIFICACIONES</h3>
+
+                        <p>
+                            Sigue nuestra página para recibir los próximos
+                            horarios, resultados y resúmenes.
+                        </p>
+
+                        <a
+                            href="https://www.facebook.com/profile.php?id=61590802529522&locale=es_LA"
+                            class="boton boton-facebook"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Abrir Facebook
+                        </a>
+
+                    </aside>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===================== DIRECTORIO DE REDES ===================== -->
+
+        <section class="seccion seccion-redes" id="redes">
+
+            <div class="contenedor">
+
+                <header class="titulo-seccion">
+                    <div>
+                        <p class="subtitulo">REDES OFICIALES</p>
+                        <h2>SIGUE A <span>SMIRPLAY</span></h2>
+                    </div>
+
+                    <p>
+                        Selecciona una plataforma para abrir directamente
+                        el perfil oficial.
+                    </p>
+                </header>
+
+
+                <nav
+                    class="directorio-redes"
+                    aria-label="Redes sociales oficiales de Smirplay"
+                >
+
+                    <!-- FACEBOOK -->
+
+                    <a
+                        class="red-social facebook"
+                        href="https://www.facebook.com/profile.php?id=61590802529522&locale=es_LA"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <span class="red-logo">
+                            <img
+                                src="https://cdn.simpleicons.org/facebook/ffffff"
+                                alt="Facebook"
+                            >
+                        </span>
+
+                        <span class="red-datos">
+                            <small>Facebook</small>
+                            <strong>Smirplay2</strong>
+                            <span>facebook.com/Smirplay2</span>
+                        </span>
+
+                        <b>↗</b>
+                    </a>
+
+
+                    <!-- INSTAGRAM -->
+
+                    <a
+                        class="red-social instagram enlace-app"
+                        href="https://www.instagram.com/smirplay/"
+                        data-app="instagram://user?username=smirplay"
+                        data-web="https://www.instagram.com/smirplay/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <span class="red-logo">
+                            <img
+                                src="https://cdn.simpleicons.org/instagram/ffffff"
+                                alt="Instagram"
+                            >
+                        </span>
+
+                        <span class="red-datos">
+                            <small>Instagram</small>
+                            <strong>Smirplay</strong>
+                            <span>instagram.com/smirplay</span>
+                        </span>
+
+                        <b>↗</b>
+                    </a>
+
+
+                    <!-- TIKTOK -->
+
+                    <a
+                        class="red-social tiktok enlace-app"
+                        href="https://www.tiktok.com/@smirplay2"
+                        data-app="tiktok://user?username=smirplay2"
+                        data-web="https://www.tiktok.com/@smirplay2"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <span class="red-logo">
+                            <img
+                                src="https://cdn.simpleicons.org/tiktok/ffffff"
+                                alt="TikTok"
+                            >
+                        </span>
+
+                        <span class="red-datos">
+                            <small>TikTok</small>
+                            <strong>Smirplay2</strong>
+                            <span>tiktok.com/@smirplay2</span>
+                        </span>
+
+                        <b>↗</b>
+                    </a>
+
+
+                    <!-- YOUTUBE -->
+
+                    <a
+                        class="red-social youtube"
+                        href="https://www.youtube.com/@Smirplay2"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <span class="red-logo">
+                            <img
+                                src="https://cdn.simpleicons.org/youtube/ffffff"
+                                alt="YouTube"
+                            >
+                        </span>
+
+                        <span class="red-datos">
+                            <small>YouTube</small>
+                            <strong>Smirplay</strong>
+                            <span>youtube.com/@Smirplay</span>
+                        </span>
+
+                        <b>↗</b>
+                    </a>
+
+
+                    <!-- KICK -->
+
+                    <a
+                        class="red-social kick"
+                        href="https://kick.com/smirplay2"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <span class="red-logo">
+                            <img
+                                src="https://cdn.simpleicons.org/kick/ffffff"
+                                alt="Kick"
+                            >
+                        </span>
+
+                        <span class="red-datos">
+                            <small>Kick</small>
+                            <strong>Smirplay2</strong>
+                            <span>kick.com/smirplay2</span>
+                        </span>
+
+                        <b>↗</b>
+                    </a>
+
+                </nav>
+
+
+                <!-- ===================== VIDEOS SOCIALES ===================== -->
+
+                <header class="titulo-seccion titulo-contenido">
+                    <div>
+                        <p class="subtitulo">EL TERCER TIEMPO</p>
+                        <h2>GOLES Y <span>JUGADORES MVP</span></h2>
+                    </div>
+                </header>
+
+
+                <div class="contenido-social">
+
+                    <!-- INSTAGRAM REEL -->
+
+                    <article class="publicacion">
+
+                        <header>
+                            <strong>Instagram Reels</strong>
+                            <small>@Smirplay</small>
+                        </header>
+
+                        <div class="espacio-publicacion instagram-fondo">
+
+                            <!--
+                                Sustituye este contenido por el código
+                                Embed oficial de tu Reel de Instagram.
+                            -->
+
+                            <span>◎</span>
+                            <h3>AQUÍ VA TU MEJOR GOL</h3>
+
+                            <p>
+                                Pega aquí el código Embed oficial
+                                de tu Reel de Instagram.
+                            </p>
+
+                        </div>
+
+                        <a
+                            href="https://www.instagram.com/smirplay/"
+                            class="boton boton-red"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Abrir en la App
+                        </a>
+
+                    </article>
+
+
+                    <!-- TIKTOK -->
+
+                    <article class="publicacion">
+
+                        <header>
+                            <strong>TikTok</strong>
+                            <small>@Smirplay2</small>
+                        </header>
+
+                        <div class="espacio-publicacion tiktok-fondo">
+
+                            <!--
+                                Sustituye este contenido por el código
+                                Embed oficial de tu TikTok.
+                            -->
+
+                            <span>♪</span>
+                            <h3>LA FIGURA DEL PARTIDO</h3>
+
+                            <p>
+                                Pega aquí el código Embed oficial
+                                de tu video de TikTok.
+                            </p>
+
+                        </div>
+
+                        <a
+                            href="https://www.tiktok.com/@smirplay2"
+                            class="boton boton-red"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Abrir en la App
+                        </a>
+
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===================== CONTACTO ===================== -->
+
+        <section class="seccion contacto" id="contacto">
+
+            <div class="contenedor contacto-grid">
+
+                <div>
+                    <p class="subtitulo">CONTACTO DIRECTO</p>
+
+                    <h2>
+                        ¿ARMAMOS LA PRÓXIMA
+                        <span>TRANSMISIÓN?</span>
+                    </h2>
+
+                    <p>
+                        Contacta con la dirección de Smirplay para partidos,
+                        colaboraciones y cobertura deportiva.
+                    </p>
+                </div>
+
+
+                <address class="datos-contacto">
+
+                    <div class="dato">
+                        <span>DT</span>
+
+                        <p>
+                            <small>Director</small>
+                            <strong>Smir Hernandez</strong>
+                        </p>
+                    </div>
+
+                    <a
+                        class="dato"
+                        href="mailto:hernandezemir21@gmail.com"
+                    >
+                        <span>@</span>
+
+                        <p>
+                            <small>Correo electrónico</small>
+                            <strong>hernandezemir21@gmail.com</strong>
+                        </p>
+                    </a>
+
+                    <a
+                        class="dato whatsapp"
+                        href="https://wa.me/526633023729"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <span>WA</span>
+
+                        <p>
+                            <small>WhatsApp</small>
+                            <strong>+52 663 302 3729</strong>
+                        </p>
+                    </a>
+
+                </address>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ===================== FOOTER ===================== -->
+
+    <footer class="footer">
+
+        <div class="contenedor footer-contenido">
+
+            <div class="marca marca-footer">
+
+                <img
+                    src="smirplay.png"
+                    alt="Smirplay"
+                >
+
+                <div>
+                    <strong><span>SMIR</span>PLAY</strong>
+                    <small>La cancha se vive aquí</small>
+                </div>
+
+            </div>
+
+            <p>
+                © <span id="anio"></span> Smirplay.
+                Todos los derechos reservados.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- ===================== MÚSICA ===================== -->
+
+    <audio id="musica" loop preload="none">
+        <source
+            src="https://incompetech.com/music/royalty-free/mp3-royaltyfree/Motherlode.mp3"
+            type="audio/mpeg"
+        >
+    </audio>
+
+    <button
+        class="boton-musica"
+        id="boton-musica"
+        type="button"
+        aria-label="Reproducir música"
+        aria-pressed="false"
+    >
+        <span id="icono-musica">♪</span>
+    </button>
+
+    <div class="mensaje" id="mensaje"></div>
+
+</body>
+</html>
