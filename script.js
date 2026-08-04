@@ -179,6 +179,26 @@ document.querySelectorAll(".enlace-app").forEach(function (enlace) {
 });
 
 
+/* ===================== REPRODUCTOR DE YOUTUBE ===================== */
+
+const previaYoutube = document.querySelector(".youtube-previa");
+
+
+if (previaYoutube) {
+    previaYoutube.addEventListener("click", function () {
+        const videoId = previaYoutube.dataset.youtubeId;
+        const iframe = document.createElement("iframe");
+
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        iframe.title = "Repetición de Smirplay en YouTube";
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        iframe.allowFullscreen = true;
+
+        previaYoutube.replaceWith(iframe);
+    });
+}
+
+
 /* ===================== ÚLTIMO GOL DE INSTAGRAM ===================== */
 
 const contenedorReel = document.querySelector("#instagram-reel");
