@@ -542,11 +542,6 @@ button {
     color: #ff625b;
 }
 
-.estado-repeticion {
-    border-color: var(--borde);
-    color: var(--texto-secundario);
-}
-
 .iframe-video {
     aspect-ratio: 16 / 9;
 
@@ -588,9 +583,12 @@ button {
 
 .anuncios-grid {
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
+    /* Antes tenías 1.15fr 0.85fr. Esto lo cambia para que la caja de Facebook mida máximo 500px exactos: */
+    /*grid-template-columns: 1.15fr 0.85fr;*/
+    grid-template-columns: minmax(320px, 500px) 1fr;
     gap: 24px;
 }
+
 
 .facebook-contenedor,
 .anuncio-lateral {
@@ -603,32 +601,26 @@ button {
 
     box-shadow: var(--sombra);
 }
-
 .facebook-contenedor > header {
     padding: 18px;
 }
 
 .facebook-iframe {
-    display: grid;
-
+    display: flex;
+    justify-content: center;
     min-height: 650px;
-
-    place-items: start center;
-
     overflow: hidden;
-
     border-top: 1px solid var(--borde);
-
-    background: #090c11;
+    background: white; /* Fondo blanco para que coincida perfectamente con el plugin */
 }
 
-.facebook-iframe iframe {
-    width: 100%;
-    max-width: 500px;
-
+/* Regla vital para obligar al nuevo código de Facebook a ocupar todo el ancho disponible */
+.facebook-iframe iframe,
+.fb-page,
+.fb-page > span {
+    width: 100% !important;
+    max-width: 500px !important;
     border: 0;
-
-    background: white;
 }
 
 .anuncio-lateral {
@@ -1275,7 +1267,6 @@ button {
     }
 
 }
-
 
 /* ===================== CELULAR ===================== */
 
