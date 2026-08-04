@@ -9,6 +9,16 @@
         content="Smirplay: transmisiones de fútbol en vivo, próximos partidos, goles y jugadores MVP."
     >
 
+    <!--
+        Déjalo vacío si publicas todo el proyecto en Vercel.
+        Si conservas GitHub Pages, coloca aquí la URL completa del endpoint
+        desplegado, por ejemplo: https://tu-proyecto.vercel.app/api/instagram/ultimo-gol
+    -->
+    <meta
+        name="smirplay-instagram-api"
+        content="https://proyecto-smirplay.vercel.app/api/instagram/ultimo-gol"
+    >
+
     <title>Smirplay | Fútbol en vivo</title>
 
     <link rel="icon" href="smirplay kick.png">
@@ -486,37 +496,34 @@
 
                     <!-- INSTAGRAM REEL -->
 
-                    <article class="publicacion">
+                    <article class="publicacion" aria-labelledby="titulo-instagram">
 
                         <header>
-                            <strong>Instagram Reels</strong>
+                            <strong id="titulo-instagram">Instagram Reels</strong>
                             <small>@Smirplay</small>
                         </header>
 
-                        <div class="espacio-publicacion instagram-fondo">
-
-                            <!--
-                                Sustituye este contenido por el código
-                                Embed oficial de tu Reel de Instagram.
-                            -->
-
-                            <span>◎</span>
-                            <h3>AQUÍ VA TU MEJOR GOL</h3>
-
-                            <p>
-                                Pega aquí el código Embed oficial
-                                de tu Reel de Instagram.
-                            </p>
-
+                        <div
+                            class="instagram-reel"
+                            id="instagram-reel"
+                            aria-live="polite"
+                            aria-busy="true"
+                        >
+                            <div class="estado-reel estado-reel-cargando">
+                                <span class="cargador-reel" aria-hidden="true"></span>
+                                <h3>BUSCANDO EL ÚLTIMO GOL</h3>
+                                <p>Consultando los Reels recientes de Smirplay…</p>
+                            </div>
                         </div>
 
                         <a
                             href="https://www.instagram.com/smirplay/"
                             class="boton boton-red"
+                            id="enlace-instagram-reel"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            Abrir en la App
+                            Abrir Instagram
                         </a>
 
                     </article>

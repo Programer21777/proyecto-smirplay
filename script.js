@@ -179,6 +179,172 @@ document.querySelectorAll(".enlace-app").forEach(function (enlace) {
 });
 
 
+/* ===================== ÚLTIMO GOL DE INSTAGRAM ===================== */
+
+const contenedorReel = document.querySelector("#instagram-reel");
+const enlaceInstagramReel = document.querySelector("#enlace-instagram-reel");
+const metaApiInstagram = document.querySelector(
+    'meta[name="smirplay-instagram-api"]'
+);
+
+let reelInstagramCargado = false;
+
+
+function obtenerUrlApiInstagram() {
+    const urlConfigurada = metaApiInstagram?.content.trim();
+
+    if (urlConfigurada) {
+        return urlConfigurada;
+    }
+
+    return new URL(
+        "/api/instagram/ultimo-gol",
+        window.location.origin
+    ).toString();
+}
+
+
+function crearEstadoReel(titulo, descripcion, tipo) {
+    const estado = document.createElement("div");
+    const icono = document.createElement("span");
+    const encabezado = document.createElement("h3");
+    const texto = document.createElement("p");
+
+    estado.className = `estado-reel estado-reel-${tipo}`;
+    icono.className = tipo === "cargando"
+        ? "cargador-reel"
+        : "icono-estado-reel";
+    icono.setAttribute("aria-hidden", "true");
+    icono.textContent = tipo === "cargando" ? "" : "⚽";
+    encabezado.textContent = titulo;
+    texto.textContent = descripcion;
+
+    estado.append(icono, encabezado, texto);
+
+    return estado;
+}
+
+
+function mostrarEstadoReel(titulo, descripcion, tipo) {
+    contenedorReel.replaceChildren(
+        crearEstadoReel(titulo, descripcion, tipo)
+    );
+}
+
+
+function mostrarReel(reel) {
+    const video = document.createElement("video");
+    const informacion = document.createElement("div");
+    const descripcion = document.createElement("p");
+    const fecha = document.createElement("time");
+
+    video.className = "video-instagram";
+    video.controls = true;
+    video.playsInline = true;
+    video.preload = "metadata";
+    video.src = reel.media_url;
+
+    if (reel.thumbnail_url) {
+        video.poster = reel.thumbnail_url;
+    }
+
+    informacion.className = "informacion-reel";
+    descripcion.className = "descripcion-reel";
+    descripcion.textContent = reel.caption || "Gol publicado por Smirplay";
+
+    if (reel.timestamp) {
+        const fechaPublicacion = new Date(reel.timestamp);
+
+        if (!Number.isNaN(fechaPublicacion.getTime())) {
+            fecha.className = "fecha-reel";
+            fecha.dateTime = reel.timestamp;
+            fecha.textContent = new Intl.DateTimeFormat("es-MX", {
+                dateStyle: "long"
+            }).format(fechaPublicacion);
+            informacion.append(descripcion, fecha);
+        } else {
+            informacion.append(descripcion);
+        }
+    } else {
+        informacion.append(descripcion);
+    }
+
+    contenedorReel.replaceChildren(video, informacion);
+    enlaceInstagramReel.href = reel.permalink;
+    enlaceInstagramReel.textContent = "Ver Reel en Instagram";
+    reelInstagramCargado = true;
+}
+
+
+async function leerMensajeError(respuesta) {
+    try {
+        const detalle = await respuesta.json();
+
+        if (typeof detalle.error === "string") {
+            return detalle.error;
+        }
+    } catch (error) {
+        // La respuesta no contenía JSON; se usa el mensaje general.
+    }
+
+    return "Instagram no respondió correctamente.";
+}
+
+
+async function cargarUltimoGol() {
+    if (!contenedorReel || !enlaceInstagramReel) {
+        return;
+    }
+
+    if (!reelInstagramCargado) {
+        mostrarEstadoReel(
+            "BUSCANDO EL ÚLTIMO GOL",
+            "Consultando los Reels recientes de Smirplay…",
+            "cargando"
+        );
+    }
+
+    contenedorReel.setAttribute("aria-busy", "true");
+
+    try {
+        const respuesta = await fetch(obtenerUrlApiInstagram(), {
+            headers: {
+                Accept: "application/json"
+            }
+        });
+
+        if (!respuesta.ok) {
+            throw new Error(await leerMensajeError(respuesta));
+        }
+
+        const resultado = await respuesta.json();
+
+        if (!resultado.reel?.media_url || !resultado.reel?.permalink) {
+            throw new Error("La API devolvió un Reel incompleto.");
+        }
+
+        mostrarReel(resultado.reel);
+    } catch (error) {
+        console.error("No se pudo cargar el Reel de Instagram:", error);
+
+        if (!reelInstagramCargado) {
+            mostrarEstadoReel(
+                "EL GOL NO ESTÁ DISPONIBLE",
+                "Publica un Reel cuya descripción comience con ⚽ o abre Instagram para verlo.",
+                "error"
+            );
+        }
+    } finally {
+        contenedorReel.setAttribute("aria-busy", "false");
+    }
+}
+
+
+cargarUltimoGol();
+
+window.setInterval(cargarUltimoGol, 300000);
+
+
 /* ===================== AÑO AUTOMÁTICO ===================== */
 
 anio.textContent = new Date().getFullYear();
