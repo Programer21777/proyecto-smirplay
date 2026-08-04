@@ -1,0 +1,18 @@
+{
+  "name": "proyecto-smirplay",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sitio de Smirplay con integración segura de Instagram Reels.",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "test": "node --test",
+    "check": "node --check script.js && node --check server.js && node --check api/instagram/ultimo-gol.js && node --check lib/instagram.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.1"
+  }
+}

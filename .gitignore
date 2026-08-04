@@ -1,2 +1,9 @@
+.env
+.env.*
+!.env.example
+node_modules/
+.vercel/
+npm-debug.log*
+
 /Nuevo archivo
 /stylesOriginal.css
