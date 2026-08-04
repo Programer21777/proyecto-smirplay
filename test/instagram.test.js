@@ -168,3 +168,64 @@ test("el endpoint devuelve únicamente el Reel seleccionado", async function () 
     assert.equal(respuesta.body.includes("nunca-debe-salir"), false);
     assert.equal(respuesta.body.includes("token-secreto"), false);
 });
+
+
+test("permite GitHub Pages y el servidor local sin abrir CORS a otros sitios", async function () {
+    const origenAnterior = process.env.ALLOWED_ORIGIN;
+    const idAnterior = process.env.INSTAGRAM_ID;
+    const tokenAnterior = process.env.INSTAGRAM_TOKEN;
+
+    process.env.ALLOWED_ORIGIN = "https://programer21777.github.io";
+    delete process.env.INSTAGRAM_ID;
+    delete process.env.INSTAGRAM_TOKEN;
+
+    try {
+        const respuestaGitHub = crearRespuestaFalsa();
+        const respuestaLocal = crearRespuestaFalsa();
+        const respuestaAjena = crearRespuestaFalsa();
+
+        await ultimoGol({
+            method: "GET",
+            headers: { origin: "https://programer21777.github.io" }
+        }, respuestaGitHub);
+        await ultimoGol({
+            method: "GET",
+            headers: { origin: "http://127.0.0.1:5500" }
+        }, respuestaLocal);
+        await ultimoGol({
+            method: "GET",
+            headers: { origin: "https://example.com" }
+        }, respuestaAjena);
+
+        assert.equal(
+            respuestaGitHub.headers["Access-Control-Allow-Origin"],
+            "https://programer21777.github.io"
+        );
+        assert.equal(
+            respuestaLocal.headers["Access-Control-Allow-Origin"],
+            "http://127.0.0.1:5500"
+        );
+        assert.equal(
+            respuestaAjena.headers["Access-Control-Allow-Origin"],
+            undefined
+        );
+    } finally {
+        if (origenAnterior === undefined) {
+            delete process.env.ALLOWED_ORIGIN;
+        } else {
+            process.env.ALLOWED_ORIGIN = origenAnterior;
+        }
+
+        if (idAnterior === undefined) {
+            delete process.env.INSTAGRAM_ID;
+        } else {
+            process.env.INSTAGRAM_ID = idAnterior;
+        }
+
+        if (tokenAnterior === undefined) {
+            delete process.env.INSTAGRAM_TOKEN;
+        } else {
+            process.env.INSTAGRAM_TOKEN = tokenAnterior;
+        }
+    }
+});

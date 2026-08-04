@@ -6,11 +6,49 @@ const {
     serializarReel
 } = require("../../lib/instagram");
 
+const ORIGENES_LOCALES = [
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+    "http://127.0.0.1:3000",
+    "http://localhost:3000"
+];
+
+
+function obtenerOrigenPermitido(req) {
+    const configuracion = process.env.ALLOWED_ORIGIN || "*";
+
+    if (configuracion === "*") {
+        return "*";
+    }
+
+    const origenSolicitud = req.headers?.origin;
+    const origenesPermitidos = new Set([
+        ...configuracion
+            .split(",")
+            .map(function (origen) {
+                return origen.trim();
+            })
+            .filter(Boolean),
+        ...ORIGENES_LOCALES
+    ]);
+
+    if (!origenSolicitud) {
+        return configuracion.split(",")[0].trim();
+    }
+
+    return origenesPermitidos.has(origenSolicitud)
+        ? origenSolicitud
+        : null;
+}
+
 
 function configurarCors(req, res) {
-    const origenPermitido = process.env.ALLOWED_ORIGIN || "*";
+    const origenPermitido = obtenerOrigenPermitido(req);
 
-    res.setHeader("Access-Control-Allow-Origin", origenPermitido);
+    if (origenPermitido) {
+        res.setHeader("Access-Control-Allow-Origin", origenPermitido);
+    }
+
     res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Accept, Content-Type");
 

@@ -542,6 +542,11 @@ button {
     color: #ff625b;
 }
 
+.estado-repeticion {
+    border-color: var(--borde);
+    color: var(--texto-secundario);
+}
+
 .iframe-video {
     aspect-ratio: 16 / 9;
 
