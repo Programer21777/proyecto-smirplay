@@ -104,6 +104,79 @@
                     </a>
                 </div>
 
+                <div class="score-conveyor" role="region" aria-label="Resultados recientes">
+                    <div class="score-track">
+                        <div class="score-group" aria-hidden="true">
+                            <article class="score-item">
+                                <img src="smirplay kick.png" alt="Escudo Deportivo Escobar" class="team-logo">
+                                <div>
+                                    <div class="team-name">Deportivo Escobar</div>
+                                    <div class="match-meta">Final • 19 Jul</div>
+                                </div>
+                                <div class="score">2 - 1</div>
+                            </article>
+                            <article class="score-item">
+                                <img src="smirplay.png" alt="Escudo Piratas FC" class="team-logo">
+                                <div>
+                                    <div class="team-name">Piratas FC</div>
+                                    <div class="match-meta">Final • 12 Jul</div>
+                                </div>
+                                <div class="score">1 - 2</div>
+                            </article>
+                            <article class="score-item">
+                                <img src="baner.png" alt="Escudo La Cancha United" class="team-logo">
+                                <div>
+                                    <div class="team-name">La Cancha United</div>
+                                    <div class="match-meta">Amistoso • 05 Jul</div>
+                                </div>
+                                <div class="score">0 - 0</div>
+                            </article>
+                            <article class="score-item">
+                                <img src="smirplay kick.png" alt="Escudo Deportivo Escobar" class="team-logo">
+                                <div>
+                                    <div class="team-name">Deportivo Escobar</div>
+                                    <div class="match-meta">Final • 19 Jul</div>
+                                </div>
+                                <div class="score">2 - 1</div>
+                            </article>
+                        </div>
+                        <div class="score-group" aria-hidden="true">
+                            <article class="score-item">
+                                <img src="smirplay kick.png" alt="Escudo Deportivo Escobar" class="team-logo">
+                                <div>
+                                    <div class="team-name">Deportivo Escobar</div>
+                                    <div class="match-meta">Final • 19 Jul</div>
+                                </div>
+                                <div class="score">2 - 1</div>
+                            </article>
+                            <article class="score-item">
+                                <img src="smirplay.png" alt="Escudo Piratas FC" class="team-logo">
+                                <div>
+                                    <div class="team-name">Piratas FC</div>
+                                    <div class="match-meta">Final • 12 Jul</div>
+                                </div>
+                                <div class="score">1 - 2</div>
+                            </article>
+                            <article class="score-item">
+                                <img src="baner.png" alt="Escudo La Cancha United" class="team-logo">
+                                <div>
+                                    <div class="team-name">La Cancha United</div>
+                                    <div class="match-meta">Amistoso • 05 Jul</div>
+                                </div>
+                                <div class="score">0 - 0</div>
+                            </article>
+                            <article class="score-item">
+                                <img src="smirplay kick.png" alt="Escudo Deportivo Escobar" class="team-logo">
+                                <div>
+                                    <div class="team-name">Deportivo Escobar</div>
+                                    <div class="match-meta">Final • 19 Jul</div>
+                                </div>
+                                <div class="score">2 - 1</div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -184,19 +257,17 @@
                     </article>
 
 
-                    <!-- ===================== YOUTUBE ===================== -->
-
-                    <article class="tarjeta-reproductor">
-
+                    <!-- ===================== YOUTUBE AUTOMÁTICO ===================== -->
+                    <article class="tarjeta-reproductor" id="tarjeta-youtube">
                         <header class="reproductor-encabezado">
                             <div class="plataforma">
                                 <div class="icono-plataforma youtube-color">▶</div>
-
                                 <div>
                                     <strong>YouTube</strong>
                                     <small>@Smirplay</small>
                                 </div>
                             </div>
+<<<<<<< HEAD
 
                             <!-- Etiqueta Gris de Repetición -->
                             <span class="estado" style="border-color: rgba(255,255,255,0.2); color: #aab1bd;">
@@ -232,8 +303,28 @@
                             >
                                 Abrir canal ↗
                             </a>
-                        </footer>
+=======
+                            
+                            <!-- Etiqueta genérica que sirve para Vivos y Repeticiones -->
+                            <span class="estado" style="border-color: rgba(255,255,255,0.2); color: #aab1bd;">
+                                <i style="background: #aab1bd; box-shadow: none;"></i>
+                                ÚLTIMA TRANSMISIÓN
+                            </span>
+                        </header>
 
+                        <!-- Contenedor donde entrará el video -->
+                        <div class="iframe-video" id="youtube-reproductor">
+                            <div class="estado-reel estado-reel-cargando" style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                                <span class="cargador-reel" aria-hidden="true"></span>
+                                <p style="margin-top: 15px; font-size: 12px; color: #aab1bd;">Buscando en YouTube...</p>
+                            </div>
+                        </div>
+
+                        <footer class="reproductor-pie">
+                            <span id="yt-pie">Conectando...</span>
+                            <a href="https://www.youtube.com/@Smirplay2" target="_blank" rel="noopener noreferrer">Abrir canal ↗</a>
+>>>>>>> 617cdee (8 ago 2026, 7:43)
+                        </footer>
                     </article>
 
                 </div>
@@ -533,44 +624,46 @@
                         </a>
 
                     </article>
+                    <!-- TIKTOK MVP AUTOMÁTICO -->
+<article class="publicacion" aria-labelledby="titulo-tiktok">
 
+    <header>
+        <strong id="titulo-tiktok">TikTok</strong>
+        <small>@Smirplay2</small>
+    </header>
 
-                    <!-- TIKTOK -->
+    <div
+        class="tiktok-mvp"
+        id="tiktok-mvp"
+        aria-live="polite"
+        aria-busy="true"
+    >
 
-                    <article class="publicacion">
+        <div class="estado-reel estado-reel-cargando">
 
-                        <header>
-                            <strong>TikTok</strong>
-                            <small>@Smirplay2</small>
-                        </header>
+            <span class="cargador-reel" aria-hidden="true"></span>
 
-                        <div class="espacio-publicacion tiktok-fondo">
+            <h3>BUSCANDO EL ÚLTIMO MVP</h3>
 
-                            <!--
-                                Sustituye este contenido por el código
-                                Embed oficial de tu TikTok.
-                            -->
+            <p>
+                Consultando las publicaciones recientes de Smirplay2...
+            </p>
 
-                            <span>♪</span>
-                            <h3>LA FIGURA DEL PARTIDO</h3>
+        </div>
 
-                            <p>
-                                Pega aquí el código Embed oficial
-                                de tu video de TikTok.
-                            </p>
+    </div>
 
-                        </div>
+    <a
+        href="https://www.tiktok.com/@smirplay2"
+        class="boton boton-red"
+        id="enlace-tiktok-mvp"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        Abrir TikTok
+    </a>
 
-                        <a
-                            href="https://www.tiktok.com/@smirplay2"
-                            class="boton boton-red"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            Abrir en la App
-                        </a>
-
-                    </article>
+</article>
 
                 </div>
             </div>
