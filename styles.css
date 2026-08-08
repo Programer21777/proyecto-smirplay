@@ -1145,6 +1145,8 @@ button {
 
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 4;
+    /* Propiedad estándar para compatibilidad */
+    line-clamp: 4;
 }
 
 .fecha-reel {
