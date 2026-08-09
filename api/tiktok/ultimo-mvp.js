@@ -478,6 +478,53 @@ async function ultimoMvpTikTok(
         /*
          * No encontramos un MVP.
          */
+        if (candidatosMvp.length > 0) {
+
+    candidatosMvp.sort(function (a, b) {
+        return Number(b.create_time || 0) -
+               Number(a.create_time || 0);
+    });
+
+    const mvp = candidatosMvp[0];
+
+    const descripcion =
+        (
+            mvp.video_description ||
+            mvp.title ||
+            ""
+        ).trim();
+
+    res.writeHead(
+        200,
+        {
+            "Content-Type":
+                "application/json; charset=utf-8",
+
+            "Cache-Control":
+                "no-store"
+        }
+    );
+
+    res.end(
+        JSON.stringify({
+            encontrado: true,
+
+            mvp: {
+                id: mvp.id,
+                descripcion: descripcion,
+                fecha: mvp.create_time,
+                portada:
+                    mvp.cover_image_url || null,
+                enlace:
+                    mvp.share_url || null,
+                embed:
+                    mvp.embed_link || null
+            }
+        })
+    );
+
+    return;
+}
 
         res.writeHead(
             200,
