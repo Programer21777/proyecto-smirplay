@@ -191,34 +191,46 @@ async function cargarUltimoVideo() {
     if (!contenedor) return;
 
     try {
-        const urlCanal = encodeURIComponent(`https://www.youtube.com/feeds/videos.xml?channel_id=${CANAL_ID}`);
-        // Se le agrega la hora exacta al final para forzar la actualización y que no se trabe
-        const apiGratis = `https://api.rss2json.com/v1/api.json?rss_url=${urlCanal}&t=${new Date().getTime()}`;
-
-        const respuesta = await fetch(apiGratis);
-        const datos = await respuesta.json();
-
-        // Si la herramienta gratuita funciona bien:
-        if (datos.status === "ok" && datos.items && datos.items.length > 0) {
-            const ultimoVideo = datos.items[0]; 
-            const videoId = ultimoVideo.link.split("v=")[1];
-
-            contenedor.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen style="width:100%; height:100%; border:0;"></iframe>`;
-            pie.textContent = ultimoVideo.title;
-        } else {
-            // Si la herramienta llegó a su límite, saltamos al Plan B
-            throw new Error("Límite de API gratis alcanzado");
-        }
-    } catch (error) {
-        console.warn("El sistema automático está saturado. Mostrando video de respaldo...");
+        // 1. URL pública de YouTube
+        const urlRSS = `https://www.youtube.com/feeds/videos.xml?channel_id=${CANAL_ID}`;
         
-        // PLAN B: Muestra el último partido que dejaste guardado para que la web no se rompa
+        // 2. Usamos un puente súper rápido (corsproxy.io) que nos da el archivo crudo
+        const proxy = `https://corsproxy.io/?${encodeURIComponent(urlRSS)}`;
+
+        const respuesta = await fetch(proxy);
+        if (!respuesta.ok) throw new Error("Error al conectar con YouTube");
+        
+        const textoXML = await respuesta.text();
+        
+        // 3. Traducimos el código en el navegador
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(textoXML, "text/xml");
+        
+        // 4. Buscamos el video más reciente
+        const primerVideo = xmlDoc.querySelector("entry");
+        
+        if (primerVideo) {
+            // Buscamos la etiqueta exacta de YouTube "yt:videoId"
+            const videoId = primerVideo.getElementsByTagName("yt:videoId")[0].textContent;
+            const titulo = primerVideo.querySelector("title").textContent;
+
+            // Insertamos el video
+            contenedor.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen style="width:100%; height:100%; border:0;"></iframe>`;
+            pie.textContent = titulo;
+        } else {
+            throw new Error("El canal no tiene videos publicados.");
+        }
+
+    } catch (error) {
+        console.warn("Mostrando Plan B:", error);
+        
+        // PLAN B (Si falla tu internet o el canal no existe, se muestra esto)
         contenedor.innerHTML = `<iframe src="https://www.youtube.com/embed/${VIDEO_DE_RESPALDO}" allowfullscreen style="width:100%; height:100%; border:0;"></iframe>`;
         pie.textContent = "Último partido transmitido";
     }
 }
 
-// Ejecutar automáticamente al abrir la página
+// Ejecutar
 cargarUltimoVideo();
 
 
