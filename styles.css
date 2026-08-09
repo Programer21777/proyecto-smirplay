@@ -269,7 +269,6 @@ button {
     position: relative;
     padding-top: 80px;
 }
-
 /* 1. EL CONTENEDOR PRINCIPAL (Ahora esta es la caja visible que NO se mueve) */
 .score-conveyor {
     position: relative;
