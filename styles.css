@@ -1623,47 +1623,91 @@ button {
 /* ===================== MVP TIKTOK ===================== */
 
 .enlace-imagen-mvp {
-    display: block;
+    display: flex;
     width: 100%;
+
+    align-items: center;
+    justify-content: center;
+
     background: #000;
+
+    border-radius: 10px;
     overflow: hidden;
 }
 
+
+/*
+ * IMPORTANTE:
+ * height:auto + object-fit:contain
+ * evita que TikTok recorte la foto.
+ */
 .imagen-tiktok-mvp {
     display: block;
+
     width: 100%;
-    height: 620px;
-    object-fit: cover;
+    height: auto;
+
+    max-width: 100%;
+
+    object-fit: contain;
     object-position: center;
+
+    background: #000;
 }
 
+
+/* ===================== TEXTO MVP ===================== */
+
 .info-tiktok {
-    padding: 12px 16px;
+    padding: 10px 14px 6px;
 }
+
 
 .info-tiktok p {
     margin: 0;
 
-    font-size: 12px;
-    line-height: 1.4;
-
     color: #d7dbe2;
+
+    font-size: 11px;
+    line-height: 1.35;
 
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
+
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
 
     overflow: hidden;
 }
 
+
+/* ===================== MÓVIL ===================== */
+
 @media (max-width: 768px) {
 
-    .imagen-tiktok-mvp {
-        height: 520px;
+    .enlace-imagen-mvp {
+        width: 100%;
     }
 
+
+    .imagen-tiktok-mvp {
+        width: 100%;
+        height: auto;
+
+        object-fit: contain;
+    }
+
+
+    .info-tiktok {
+        padding: 8px 10px 4px;
+    }
+
+
     .info-tiktok p {
-        font-size: 11px;
-        -webkit-line-clamp: 5;
+        font-size: 10px;
+        line-height: 1.3;
+
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
     }
 }
