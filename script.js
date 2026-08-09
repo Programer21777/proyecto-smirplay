@@ -496,22 +496,25 @@ async function cargarUltimoMVP() {
 
         contenedorTikTok.innerHTML = `
 
-            <iframe
-                class="iframe-tiktok"
-                src="${mvp.embed}"
-                title="Jugador MVP de Smirplay"
-                allow="encrypted-media"
-                allowfullscreen>
-            </iframe>
+    <a
+        href="${mvp.enlace}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="enlace-imagen-mvp"
+    >
+        <img
+            class="imagen-tiktok-mvp"
+            src="${mvp.portada}"
+            alt="Jugador MVP de Smirplay"
+        >
+    </a>
 
-            <div class="info-tiktok">
-
-                <p>
-                    ${mvp.descripcion || "Jugador MVP del partido"}
-                </p>
-
-            </div>
-        `;
+    <div class="info-tiktok">
+        <p>
+            ${mvp.descripcion || "Jugador MVP del partido"}
+        </p>
+    </div>
+`;
 
 
         if (

@@ -1620,3 +1620,50 @@ button {
 
 }
 
+/* ===================== MVP TIKTOK ===================== */
+
+.enlace-imagen-mvp {
+    display: block;
+    width: 100%;
+    background: #000;
+    overflow: hidden;
+}
+
+.imagen-tiktok-mvp {
+    display: block;
+    width: 100%;
+    height: 620px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.info-tiktok {
+    padding: 12px 16px;
+}
+
+.info-tiktok p {
+    margin: 0;
+
+    font-size: 12px;
+    line-height: 1.4;
+
+    color: #d7dbe2;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+
+    .imagen-tiktok-mvp {
+        height: 520px;
+    }
+
+    .info-tiktok p {
+        font-size: 11px;
+        -webkit-line-clamp: 5;
+    }
+}
