@@ -22,6 +22,7 @@ async function obtenerAccessTokenValido() {
         !oauth.access_token ||
         !oauth.refresh_token
     ) {
+
         throw new Error(
             "TikTok todavía no tiene tokens guardados en Redis."
         );
@@ -36,19 +37,22 @@ async function obtenerAccessTokenValido() {
 
 
     /*
-     * Si al token todavía le quedan
-     * más de 5 minutos, lo usamos.
+     * Si todavía faltan más de 5 minutos
+     * para que expire, usamos el token actual.
      */
-    if (expiresAt > ahora + 300) {
+
+    if (
+        expiresAt >
+        ahora + 300
+    ) {
 
         return oauth.access_token;
     }
 
 
-    /*
-     * Si está vencido o próximo a vencer,
-     * renovamos automáticamente.
-     */
+    /* =====================================================
+       RENOVAR TOKEN
+    ===================================================== */
 
     const CLIENT_KEY =
         process.env.TIKTOK_CLIENT_KEY;
@@ -61,6 +65,7 @@ async function obtenerAccessTokenValido() {
         !CLIENT_KEY ||
         !CLIENT_SECRET
     ) {
+
         throw new Error(
             "Faltan las credenciales de TikTok."
         );
@@ -92,6 +97,7 @@ async function obtenerAccessTokenValido() {
                 method: "POST",
 
                 headers: {
+
                     "Content-Type":
                         "application/x-www-form-urlencoded"
                 },
@@ -126,11 +132,6 @@ async function obtenerAccessTokenValido() {
         Math.floor(Date.now() / 1000);
 
 
-    /*
-     * Guardamos los nuevos datos
-     * nuevamente en Redis.
-     */
-
     await redis.hset(
         "tiktok:oauth",
         {
@@ -144,7 +145,9 @@ async function obtenerAccessTokenValido() {
 
             expires_at:
                 nuevoAhora +
-                Number(datos.expires_in || 0),
+                Number(
+                    datos.expires_in || 0
+                ),
 
             refresh_expires_at:
                 nuevoAhora +
@@ -184,10 +187,7 @@ async function ultimoMvpTikTok(
     res
 ) {
 
-    /*
-     * Permite que GitHub Pages
-     * consulte esta API en Vercel.
-     */
+    /* ===================== CORS ===================== */
 
     res.setHeader(
         "Access-Control-Allow-Origin",
@@ -205,7 +205,9 @@ async function ultimoMvpTikTok(
     );
 
 
-    if (req.method === "OPTIONS") {
+    if (
+        req.method === "OPTIONS"
+    ) {
 
         res.writeHead(204);
 
@@ -215,7 +217,9 @@ async function ultimoMvpTikTok(
     }
 
 
-    if (req.method !== "GET") {
+    if (
+        req.method !== "GET"
+    ) {
 
         res.writeHead(
             405,
@@ -242,10 +246,7 @@ async function ultimoMvpTikTok(
             await obtenerAccessTokenValido();
 
 
-        /*
-         * Campos que queremos recuperar
-         * de TikTok.
-         */
+        /* ===================== CAMPOS ===================== */
 
         const CAMPOS = [
 
@@ -264,20 +265,22 @@ async function ultimoMvpTikTok(
 
         let pagina = 0;
 
-        const candidatosMvp = [];
-
 
         /*
-         * Revisamos máximo:
+         * TikTok entrega las publicaciones
+         * comenzando por las más recientes.
          *
-         * 5 páginas
-         * x
-         * 20 publicaciones
+         * Revisamos hasta 5 páginas.
          *
-         * = 100 publicaciones.
+         * En cuanto encontramos LA PRIMERA
+         * publicación cuya descripción
+         * empiece con 🏅, la devolvemos.
          */
 
-        while (pagina < 5) {
+
+        while (
+            pagina < 5
+        ) {
 
             pagina++;
 
@@ -298,6 +301,7 @@ async function ultimoMvpTikTok(
                 await fetch(
                     `https://open.tiktokapis.com/v2/video/list/?fields=${CAMPOS}`,
                     {
+
                         method:
                             "POST",
 
@@ -320,11 +324,11 @@ async function ultimoMvpTikTok(
                 await respuesta.json();
 
 
-            /*
-             * Error HTTP.
-             */
+            /* ===================== ERROR HTTP ===================== */
 
-            if (!respuesta.ok) {
+            if (
+                !respuesta.ok
+            ) {
 
                 console.error(
                     "Error HTTP TikTok:",
@@ -350,17 +354,15 @@ async function ultimoMvpTikTok(
 
                         detalle:
                             datos
-
                     })
                 );
+
 
                 return;
             }
 
 
-            /*
-             * Error interno de la API.
-             */
+            /* ===================== ERROR TIKTOK ===================== */
 
             if (
                 datos.error &&
@@ -391,9 +393,9 @@ async function ultimoMvpTikTok(
 
                         detalle:
                             datos.error
-
                     })
                 );
+
 
                 return;
             }
@@ -403,42 +405,115 @@ async function ultimoMvpTikTok(
                 datos.data?.videos || [];
 
 
-            /*
-             * Guardamos TODAS las publicaciones
-             * cuya descripción empiece con:
-             *
-             * 🏅
-             */
+            /* =====================================================
+               BUSCAR EL MVP MÁS RECIENTE
+            ===================================================== */
 
-            videos.forEach(
-                function (video) {
+            const mvp =
+                videos.find(
+                    function (video) {
 
-                    const descripcion =
-                        (
-                            video.video_description ||
-                            video.title ||
-                            ""
-                        ).trim();
+                        let descripcion =
+                            String(
+                                video.video_description ||
+                                video.title ||
+                                ""
+                            );
 
 
-                    if (
-                        descripcion.startsWith("🏅")
-                    ) {
+                        /*
+                         * Quitamos espacios y caracteres
+                         * invisibles que pudieran existir
+                         * antes del emoji.
+                         */
 
-                        candidatosMvp.push(
-                            video
+                        descripcion =
+                            descripcion
+                                .replace(
+                                    /^[\s\u200B\u200C\u200D\uFEFF]+/u,
+                                    ""
+                                )
+                                .trimStart();
+
+
+                        return (
+                            descripcion.startsWith(
+                                "🏅"
+                            )
                         );
                     }
-                }
-            );
+                );
 
 
-            /*
-             * Paginación.
-             */
+            /* =====================================================
+               ENCONTRAMOS EL MVP
+            ===================================================== */
+
+            if (mvp) {
+
+                const descripcion =
+                    String(
+                        mvp.video_description ||
+                        mvp.title ||
+                        ""
+                    ).trim();
+
+
+                res.writeHead(
+                    200,
+                    {
+                        "Content-Type":
+                            "application/json; charset=utf-8",
+
+                        "Cache-Control":
+                            "no-store, no-cache, must-revalidate"
+                    }
+                );
+
+
+                res.end(
+                    JSON.stringify({
+
+                        encontrado:
+                            true,
+
+                        mvp: {
+
+                            id:
+                                mvp.id,
+
+                            descripcion:
+                                descripcion,
+
+                            fecha:
+                                mvp.create_time,
+
+                            portada:
+                                mvp.cover_image_url ||
+                                null,
+
+                            enlace:
+                                mvp.share_url ||
+                                null,
+
+                            embed:
+                                mvp.embed_link ||
+                                null
+                        }
+
+                    })
+                );
+
+
+                return;
+            }
+
+
+            /* ===================== SIGUIENTE PÁGINA ===================== */
 
             const hayMas =
                 datos.data?.has_more === true;
+
 
             cursor =
                 datos.data?.cursor;
@@ -454,107 +529,9 @@ async function ultimoMvpTikTok(
         }
 
 
-        /* =================================================
-           SELECCIONAMOS EL MVP MÁS RECIENTE
-        ================================================= */
-
-        if (
-            candidatosMvp.length > 0
-        ) {
-
-            /*
-             * Ordenamos por create_time:
-             *
-             * más reciente
-             * ↓
-             * más antiguo
-             */
-
-            candidatosMvp.sort(
-                function (a, b) {
-
-                    return (
-                        Number(
-                            b.create_time || 0
-                        ) -
-                        Number(
-                            a.create_time || 0
-                        )
-                    );
-                }
-            );
-
-
-            /*
-             * Este es el MVP correcto:
-             * el más reciente.
-             */
-
-            const mvp =
-                candidatosMvp[0];
-
-
-            const descripcion =
-                (
-                    mvp.video_description ||
-                    mvp.title ||
-                    ""
-                ).trim();
-
-
-            res.writeHead(
-                200,
-                {
-                    "Content-Type":
-                        "application/json; charset=utf-8",
-
-                    "Cache-Control":
-                        "no-store"
-                }
-            );
-
-
-            res.end(
-                JSON.stringify({
-
-                    encontrado:
-                        true,
-
-                    mvp: {
-
-                        id:
-                            mvp.id,
-
-                        descripcion:
-                            descripcion,
-
-                        fecha:
-                            mvp.create_time,
-
-                        portada:
-                            mvp.cover_image_url ||
-                            null,
-
-                        enlace:
-                            mvp.share_url ||
-                            null,
-
-                        embed:
-                            mvp.embed_link ||
-                            null
-                    }
-
-                })
-            );
-
-
-            return;
-        }
-
-
-        /* =================================================
-           NO EXISTE MVP
-        ================================================= */
+        /* =====================================================
+           NO ENCONTRAMOS MVP
+        ===================================================== */
 
         res.writeHead(
             200,
@@ -563,7 +540,7 @@ async function ultimoMvpTikTok(
                     "application/json; charset=utf-8",
 
                 "Cache-Control":
-                    "no-store"
+                    "no-store, no-cache, must-revalidate"
             }
         );
 
