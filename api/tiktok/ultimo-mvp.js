@@ -254,6 +254,7 @@ async function ultimoMvpTikTok(
         let cursor = null;
 
         let pagina = 0;
+        const candidatosMvp = [];
 
 
         /*
