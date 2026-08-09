@@ -384,25 +384,19 @@ async function ultimoMvpTikTok(
              * exactamente con 🏅
              */
 
-            const mvp =
-                videos.find(
-                    function (video) {
+            videos.forEach(function (video) {
 
-                        const descripcion =
-                            (
-                                video.video_description ||
-                                video.title ||
-                                ""
-                            ).trim();
+    const descripcion =
+        (
+            video.video_description ||
+            video.title ||
+            ""
+        ).trim();
 
-
-                        return (
-                            descripcion
-                                .startsWith("🏅")
-                        );
-                    }
-                );
-
+    if (descripcion.startsWith("🏅")) {
+        candidatosMvp.push(video);
+    }
+});
 
             if (mvp) {
 
