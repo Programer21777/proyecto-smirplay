@@ -264,15 +264,46 @@ module.exports = async function callbackTikTok(req, res) {
             return;
         }
 
+/*
+ * Guardamos los tokens de TikTok
+ * de forma segura en Redis.
+ */
 
-        /*
-         * IMPORTANTE:
-         * Esto es solamente para la primera prueba.
-         *
-         * Luego guardaremos refresh_token
-         * de forma segura para automatizar
-         * la renovación.
-         */
+const redis = obtenerRedis();
+
+const ahora =
+    Math.floor(Date.now() / 1000);
+
+await redis.hset(
+    "tiktok:oauth",
+    {
+        access_token:
+            datos.access_token,
+
+        refresh_token:
+            datos.refresh_token,
+
+        expires_at:
+            ahora +
+            Number(datos.expires_in || 0),
+
+        refresh_expires_at:
+            ahora +
+            Number(
+                datos.refresh_expires_in || 0
+            ),
+
+        open_id:
+            datos.open_id || "",
+
+        scope:
+            datos.scope || ""
+    }
+);
+
+console.log(
+    "Tokens de TikTok guardados en Redis."
+);
 
 
         res.writeHead(200, {
