@@ -270,41 +270,51 @@ button {
     padding-top: 80px;
 }
 
+/* 1. EL CONTENEDOR PRINCIPAL (Ahora esta es la caja visible que NO se mueve) */
 .score-conveyor {
     position: relative;
     margin: 18px auto 0;
     width: min(100%, 1120px);
     max-width: var(--ancho);
     overflow: hidden;
-    padding: 6px 0;
-}
-
-.score-track {
-    display: flex;
-    align-items: center;
-    width: max-content; /* AGREGADO 1: Obliga a la pista a medir lo que tenga que medir sin comprimirse */
-    gap: 0;
-    padding-left: 16px;
-    padding-right: 16px;
+    
+    /* Movimos el fondo, bordes y sombras aquí para que se queden estáticos */
     background: rgba(0, 0, 0, 0.82);
     border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 22px;
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+    
+    /* Combinamos tu padding vertical (6px) con el horizontal (16px) */
+    padding: 6px 16px; 
+}
+
+/* 2. LA PISTA QUE SE MUEVE (Solo es una cinta transparente) */
+.score-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    gap: 0;
+    
+    /* Ya NO lleva background ni paddings aquí, eso hace la matemática perfecta */
     animation: scroll-loop 20s linear infinite;
     will-change: transform;
 }
 
+/* 3. LOS GRUPOS (Las 2 mitades idénticas de tarjetas) */
 .score-group {
     display: flex;
     align-items: center;
     gap: 14px;
-    padding-right: 14px; /* AGREGADO 2: Iguala el espaciado entre el Grupo 1 y el Grupo 2 para que no haya un "salto" visual */
+    
+    /* Obligatorio: Esto compensa el espacio final para empalmar con el Grupo 2 */
+    padding-right: 14px; 
 }
 
+/* 4. LAS TARJETAS (La corrección que hicimos antes) */
 .score-item {
     display: inline-flex;
     align-items: center;
-    flex-shrink: 0; /* AGREGADO 3: LA MAGIA. Prohíbe que la tarjeta se encoja o se encime sobre otra */
+    flex-shrink: 0; /* Evita que se encimen */
     gap: 12px;
     min-width: 260px;
     padding: 10px 14px;
