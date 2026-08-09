@@ -130,6 +130,30 @@ const servidor =
                 return;
             }
 
+            /* TIKTOK LOGIN */
+
+             if (
+            url.pathname ===
+             "/api/tiktok/login"
+             ) {
+
+             loginTikTok(req, res);
+
+             return;
+             }
+
+
+             /* TIKTOK CALLBACK */
+
+             if (
+        url.pathname ===
+        "/api/tiktok/callback"
+            ) {
+
+        callbackTikTok(req, res);
+
+        return;
+    }
 
             /* ARCHIVOS DE LA PÁGINA */
 
