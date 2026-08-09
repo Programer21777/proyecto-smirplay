@@ -282,6 +282,7 @@ button {
 .score-track {
     display: flex;
     align-items: center;
+    width: max-content; /* AGREGADO 1: Obliga a la pista a medir lo que tenga que medir sin comprimirse */
     gap: 0;
     padding-left: 16px;
     padding-right: 16px;
@@ -297,11 +298,13 @@ button {
     display: flex;
     align-items: center;
     gap: 14px;
+    padding-right: 14px; /* AGREGADO 2: Iguala el espaciado entre el Grupo 1 y el Grupo 2 para que no haya un "salto" visual */
 }
 
 .score-item {
     display: inline-flex;
     align-items: center;
+    flex-shrink: 0; /* AGREGADO 3: LA MAGIA. Prohíbe que la tarjeta se encoja o se encime sobre otra */
     gap: 12px;
     min-width: 260px;
     padding: 10px 14px;
