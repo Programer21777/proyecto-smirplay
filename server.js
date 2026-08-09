@@ -6,57 +6,130 @@ const fs = require("node:fs");
 const http = require("node:http");
 const path = require("node:path");
 
-const ultimoGol = require("./api/instagram/ultimo-gol");
-const loginTikTok = require("./lib/tiktok-login");
-const callbackTikTok = require("./api/tiktok/callback");
-const ultimoMvpTikTok = require("./api/tiktok/ultimo-mvp");
 
-const PUERTO = Number(process.env.PORT) || 3000;
-const RAIZ = __dirname;
+/* ===================== APIs ===================== */
+
+const ultimoGol =
+    require("./api/instagram/ultimo-gol");
+
+const loginTikTok =
+    require("./lib/tiktok-login");
+
+const callbackTikTok =
+    require("./api/tiktok/callback");
+
+const ultimoMvpTikTok =
+    require("./api/tiktok/ultimo-mvp");
+
+
+/* ===================== CONFIGURACIÓN ===================== */
+
+const PUERTO =
+    Number(process.env.PORT) || 3000;
+
+const RAIZ =
+    __dirname;
+
 
 const TIPOS = {
-    ".css": "text/css; charset=utf-8",
-    ".html": "text/html; charset=utf-8",
-    ".js": "text/javascript; charset=utf-8",
-    ".jpg": "image/jpeg",
-    ".jpeg": "image/jpeg",
-    ".png": "image/png",
-    ".svg": "image/svg+xml",
-    ".ico": "image/x-icon"
+
+    ".css":
+        "text/css; charset=utf-8",
+
+    ".html":
+        "text/html; charset=utf-8",
+
+    ".js":
+        "text/javascript; charset=utf-8",
+
+    ".jpg":
+        "image/jpeg",
+
+    ".jpeg":
+        "image/jpeg",
+
+    ".png":
+        "image/png",
+
+    ".svg":
+        "image/svg+xml",
+
+    ".ico":
+        "image/x-icon",
+
+    ".mp3":
+        "audio/mpeg",
+
+    ".webp":
+        "image/webp"
 };
 
 
-function servirArchivo(req, res) {
+/* ===================== ARCHIVOS ESTÁTICOS ===================== */
 
-    const url = new URL(
-        req.url,
-        `http://${req.headers.host || "localhost"}`
-    );
+function servirArchivo(
+    req,
+    res
+) {
+
+    const url =
+        new URL(
+            req.url,
+            `http://${req.headers.host || "localhost"}`
+        );
+
 
     const rutaSolicitada =
-        decodeURIComponent(url.pathname);
+        decodeURIComponent(
+            url.pathname
+        );
+
 
     const rutaRelativa =
         rutaSolicitada === "/"
             ? "index.html"
-            : rutaSolicitada.replace(/^\/+/, "");
+            : rutaSolicitada.replace(
+                /^\/+/,
+                ""
+            );
+
 
     const rutaArchivo =
-        path.resolve(RAIZ, rutaRelativa);
+        path.resolve(
+            RAIZ,
+            rutaRelativa
+        );
 
+
+    /*
+     * Evita acceder a archivos
+     * fuera de la carpeta del proyecto.
+     */
 
     if (
-        !rutaArchivo.startsWith(`${RAIZ}${path.sep}`) ||
+        !rutaArchivo.startsWith(
+            `${RAIZ}${path.sep}`
+        ) ||
         rutaRelativa
             .split(/[\\/]/)
-            .some(function (parte) {
-                return parte.startsWith(".");
-            })
+            .some(
+                function (parte) {
+                    return parte.startsWith(".");
+                }
+            )
     ) {
 
-        res.writeHead(403);
+        res.writeHead(
+            403,
+            {
+                "Content-Type":
+                    "text/plain; charset=utf-8"
+            }
+        );
 
-        res.end("Acceso denegado");
+        res.end(
+            "Acceso denegado"
+        );
 
         return;
     }
@@ -64,34 +137,51 @@ function servirArchivo(req, res) {
 
     fs.stat(
         rutaArchivo,
-        function (error, estadisticas) {
+        function (
+            error,
+            estadisticas
+        ) {
 
             if (
                 error ||
                 !estadisticas.isFile()
             ) {
 
-                res.writeHead(404);
+                res.writeHead(
+                    404,
+                    {
+                        "Content-Type":
+                            "text/plain; charset=utf-8"
+                    }
+                );
 
-                res.end("No encontrado");
+                res.end(
+                    "No encontrado"
+                );
 
                 return;
             }
 
 
+            const extension =
+                path
+                    .extname(
+                        rutaArchivo
+                    )
+                    .toLowerCase();
+
+
             const tipo =
-                TIPOS[
-                    path
-                        .extname(rutaArchivo)
-                        .toLowerCase()
-                ] ||
+                TIPOS[extension] ||
                 "application/octet-stream";
 
 
             res.writeHead(
                 200,
                 {
-                    "Content-Type": tipo,
+                    "Content-Type":
+                        tipo,
+
                     "X-Content-Type-Options":
                         "nosniff"
                 }
@@ -99,18 +189,25 @@ function servirArchivo(req, res) {
 
 
             fs
-                .createReadStream(rutaArchivo)
-                .pipe(res);
-
+                .createReadStream(
+                    rutaArchivo
+                )
+                .pipe(
+                    res
+                );
         }
     );
-
 }
 
 
+/* ===================== SERVIDOR ===================== */
+
 const servidor =
     http.createServer(
-        function (req, res) {
+        function (
+            req,
+            res
+        ) {
 
             const url =
                 new URL(
@@ -119,61 +216,91 @@ const servidor =
                 );
 
 
-            /* API DE INSTAGRAM */
+            /* =========================================
+               API INSTAGRAM — ÚLTIMO GOL
+            ========================================= */
 
             if (
                 url.pathname ===
                 "/api/instagram/ultimo-gol"
             ) {
 
-                ultimoGol(req, res);
+                ultimoGol(
+                    req,
+                    res
+                );
 
                 return;
             }
 
-            /* TIKTOK LOGIN */
 
-             if (
-            url.pathname ===
-             "/api/tiktok/login"
-             ) {
+            /* =========================================
+               TIKTOK — LOGIN
+            ========================================= */
 
-             loginTikTok(req, res);
-
-             return;
-             }
-
-
-             /* TIKTOK CALLBACK */
-
-             if (
-        url.pathname ===
-        "/api/tiktok/callback"
+            if (
+                url.pathname ===
+                "/api/tiktok/login"
             ) {
 
-        callbackTikTok(req, res);
+                loginTikTok(
+                    req,
+                    res
+                );
 
-        return;
-    }
+                return;
+            }
 
-    /* TIKTOK ÚLTIMO MVP */
 
-if (
-    url.pathname ===
-    "/api/tiktok/ultimo-mvp"
-) {
+            /* =========================================
+               TIKTOK — CALLBACK
+            ========================================= */
 
-    ultimoMvpTikTok(req, res);
+            if (
+                url.pathname ===
+                "/api/tiktok/callback"
+            ) {
 
-    return;
-}
-            /* ARCHIVOS DE LA PÁGINA */
+                callbackTikTok(
+                    req,
+                    res
+                );
 
-            servirArchivo(req, res);
+                return;
+            }
 
+
+            /* =========================================
+               TIKTOK — ÚLTIMO MVP
+            ========================================= */
+
+            if (
+                url.pathname ===
+                "/api/tiktok/ultimo-mvp"
+            ) {
+
+                ultimoMvpTikTok(
+                    req,
+                    res
+                );
+
+                return;
+            }
+
+
+            /* =========================================
+               ARCHIVOS DE LA PÁGINA
+            ========================================= */
+
+            servirArchivo(
+                req,
+                res
+            );
         }
     );
 
+
+/* ===================== INICIAR SERVIDOR ===================== */
 
 servidor.listen(
     PUERTO,
@@ -182,6 +309,5 @@ servidor.listen(
         console.log(
             `Smirplay disponible en http://localhost:${PUERTO}`
         );
-
     }
 );
