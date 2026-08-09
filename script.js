@@ -404,8 +404,31 @@ window.setInterval(cargarUltimoGol, 300000);
 
 anio.textContent = new Date().getFullYear();
 
-const contenedorTikTok = document.getElementById("tiktok-mvp");
-const enlaceTikTok = document.getElementById("enlace-tiktok-mvp");
+/* ===================== ÚLTIMO MVP DE TIKTOK ===================== */
+
+const contenedorTikTok =
+    document.getElementById("tiktok-mvp");
+
+const enlaceTikTok =
+    document.getElementById("enlace-tiktok-mvp");
+
+const metaApiTikTok =
+    document.querySelector(
+        'meta[name="smirplay-tiktok-api"]'
+    );
+
+
+function obtenerUrlApiTikTok() {
+
+    const urlConfigurada =
+        metaApiTikTok?.content.trim();
+
+    if (urlConfigurada) {
+        return urlConfigurada;
+    }
+
+    return "https://proyecto-smirplay.vercel.app/api/tiktok/ultimo-mvp";
+}
 
 
 async function cargarUltimoMVP() {
@@ -414,62 +437,117 @@ async function cargarUltimoMVP() {
         return;
     }
 
+
+    contenedorTikTok.setAttribute(
+        "aria-busy",
+        "true"
+    );
+
+
     try {
 
-        const respuesta = await fetch("/api/tiktok/ultimo-mvp");
+        const respuesta =
+            await fetch(
+                obtenerUrlApiTikTok(),
+                {
+                    headers: {
+                        Accept:
+                            "application/json"
+                    }
+                }
+            );
+
 
         if (!respuesta.ok) {
-            throw new Error("No se encontró publicación MVP");
+
+            throw new Error(
+                "La API de TikTok no respondió correctamente."
+            );
         }
 
-        const mvp = await respuesta.json();
+
+        const resultado =
+            await respuesta.json();
+
+
+        if (
+            !resultado.encontrado ||
+            !resultado.mvp
+        ) {
+
+            throw new Error(
+                resultado.mensaje ||
+                "No hay MVP publicado."
+            );
+        }
+
+
+        const mvp =
+            resultado.mvp;
+
+
+        if (!mvp.embed) {
+
+            throw new Error(
+                "La publicación no tiene enlace de reproducción."
+            );
+        }
 
 
         contenedorTikTok.innerHTML = `
 
             <iframe
                 class="iframe-tiktok"
-                src="${mvp.embed_link}"
+                src="${mvp.embed}"
                 title="Jugador MVP de Smirplay"
-                allow="encrypted-media;"
+                allow="encrypted-media"
                 allowfullscreen>
             </iframe>
 
             <div class="info-tiktok">
 
                 <p>
-                    ${mvp.video_description || "Jugador MVP del partido"}
+                    ${mvp.descripcion || "Jugador MVP del partido"}
                 </p>
 
             </div>
         `;
 
 
-        if (enlaceTikTok) {
+        if (
+            enlaceTikTok &&
+            mvp.enlace
+        ) {
 
-            enlaceTikTok.href = mvp.share_url;
+            enlaceTikTok.href =
+                mvp.enlace;
 
             enlaceTikTok.textContent =
                 "VER PUBLICACIÓN EN TIKTOK";
+
+            enlaceTikTok.target =
+                "_blank";
+
+            enlaceTikTok.rel =
+                "noopener noreferrer";
         }
 
 
-        contenedorTikTok.setAttribute(
-            "aria-busy",
-            "false"
+    } catch (error) {
+
+        console.error(
+            "No se pudo cargar el MVP:",
+            error
         );
 
-    }
-
-    catch (error) {
-
-        console.error(error);
 
         contenedorTikTok.innerHTML = `
 
             <div class="estado-reel">
 
-                <h3>NO HAY MVP PUBLICADO</h3>
+                <h3>
+                    NO HAY MVP PUBLICADO
+                </h3>
 
                 <p>
                     Todavía no se encontró una publicación
@@ -478,8 +556,14 @@ async function cargarUltimoMVP() {
 
             </div>
         `;
-    }
 
+    } finally {
+
+        contenedorTikTok.setAttribute(
+            "aria-busy",
+            "false"
+        );
+    }
 }
 
 
