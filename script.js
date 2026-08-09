@@ -181,22 +181,45 @@ document.querySelectorAll(".enlace-app").forEach(function (enlace) {
 
 /* ===================== REPRODUCTOR DE YOUTUBE ===================== */
 
-const previaYoutube = document.querySelector(".youtube-previa");
+const CANAL_ID = "UCMpjfcdM9MLT91pnq2sATUw"; // <-- IMPORTANTE: Pon aquí el ID del canal (empieza con UC)
+const VIDEO_DE_RESPALDO = "tJwmj0h9suE"; // ID de la Jornada 8 (Plan B)
 
+async function cargarUltimoVideo() {
+    const contenedor = document.getElementById("youtube-reproductor");
+    const pie = document.getElementById("yt-pie");
 
-if (previaYoutube) {
-    previaYoutube.addEventListener("click", function () {
-        const videoId = previaYoutube.dataset.youtubeId;
-        const iframe = document.createElement("iframe");
+    if (!contenedor) return;
 
-        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-        iframe.title = "Repetición de Smirplay en YouTube";
-        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-        iframe.allowFullscreen = true;
+    try {
+        const urlCanal = encodeURIComponent(`https://www.youtube.com/feeds/videos.xml?channel_id=${CANAL_ID}`);
+        // Se le agrega la hora exacta al final para forzar la actualización y que no se trabe
+        const apiGratis = `https://api.rss2json.com/v1/api.json?rss_url=${urlCanal}&t=${new Date().getTime()}`;
 
-        previaYoutube.replaceWith(iframe);
-    });
+        const respuesta = await fetch(apiGratis);
+        const datos = await respuesta.json();
+
+        // Si la herramienta gratuita funciona bien:
+        if (datos.status === "ok" && datos.items && datos.items.length > 0) {
+            const ultimoVideo = datos.items[0]; 
+            const videoId = ultimoVideo.link.split("v=")[1];
+
+            contenedor.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen style="width:100%; height:100%; border:0;"></iframe>`;
+            pie.textContent = ultimoVideo.title;
+        } else {
+            // Si la herramienta llegó a su límite, saltamos al Plan B
+            throw new Error("Límite de API gratis alcanzado");
+        }
+    } catch (error) {
+        console.warn("El sistema automático está saturado. Mostrando video de respaldo...");
+        
+        // PLAN B: Muestra el último partido que dejaste guardado para que la web no se rompa
+        contenedor.innerHTML = `<iframe src="https://www.youtube.com/embed/${VIDEO_DE_RESPALDO}" allowfullscreen style="width:100%; height:100%; border:0;"></iframe>`;
+        pie.textContent = "Último partido transmitido";
+    }
 }
+
+// Ejecutar automáticamente al abrir la página
+cargarUltimoVideo();
 
 
 /* ===================== ÚLTIMO GOL DE INSTAGRAM ===================== */
@@ -368,3 +391,90 @@ window.setInterval(cargarUltimoGol, 300000);
 /* ===================== AÑO AUTOMÁTICO ===================== */
 
 anio.textContent = new Date().getFullYear();
+
+const contenedorTikTok = document.getElementById("tiktok-mvp");
+const enlaceTikTok = document.getElementById("enlace-tiktok-mvp");
+
+
+async function cargarUltimoMVP() {
+
+    if (!contenedorTikTok) {
+        return;
+    }
+
+    try {
+
+        const respuesta = await fetch("/api/tiktok/ultimo-mvp");
+
+        if (!respuesta.ok) {
+            throw new Error("No se encontró publicación MVP");
+        }
+
+        const mvp = await respuesta.json();
+
+
+        contenedorTikTok.innerHTML = `
+
+            <iframe
+                class="iframe-tiktok"
+                src="${mvp.embed_link}"
+                title="Jugador MVP de Smirplay"
+                allow="encrypted-media;"
+                allowfullscreen>
+            </iframe>
+
+            <div class="info-tiktok">
+
+                <p>
+                    ${mvp.video_description || "Jugador MVP del partido"}
+                </p>
+
+            </div>
+        `;
+
+
+        if (enlaceTikTok) {
+
+            enlaceTikTok.href = mvp.share_url;
+
+            enlaceTikTok.textContent =
+                "VER PUBLICACIÓN EN TIKTOK";
+        }
+
+
+        contenedorTikTok.setAttribute(
+            "aria-busy",
+            "false"
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        contenedorTikTok.innerHTML = `
+
+            <div class="estado-reel">
+
+                <h3>NO HAY MVP PUBLICADO</h3>
+
+                <p>
+                    Todavía no se encontró una publicación
+                    cuya descripción comience con 🏅.
+                </p>
+
+            </div>
+        `;
+    }
+
+}
+
+
+cargarUltimoMVP();
+
+
+setInterval(
+    cargarUltimoMVP,
+    300000
+);
