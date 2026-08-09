@@ -1,7 +1,7 @@
 "use strict";
 
 const crypto = require("node:crypto");
-
+const { obtenerRedis } = require("../../lib/tiktok-redis");
 
 function obtenerCookies(req) {
 
