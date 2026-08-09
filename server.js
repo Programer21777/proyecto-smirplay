@@ -156,6 +156,17 @@ const servidor =
         return;
     }
 
+    /* TIKTOK ÚLTIMO MVP */
+
+if (
+    url.pathname ===
+    "/api/tiktok/ultimo-mvp"
+) {
+
+    ultimoMvpTikTok(req, res);
+
+    return;
+}
             /* ARCHIVOS DE LA PÁGINA */
 
             servirArchivo(req, res);
