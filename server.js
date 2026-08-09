@@ -7,6 +7,8 @@ const http = require("node:http");
 const path = require("node:path");
 
 const ultimoGol = require("./api/instagram/ultimo-gol");
+const loginTikTok = require("./api/tiktok/login");
+const callbackTikTok = require("./api/tiktok/callback");
 
 const PUERTO = Number(process.env.PORT) || 3000;
 const RAIZ = __dirname;
