@@ -250,266 +250,58 @@
 
 
 
-                <!-- ===================== RESULTADOS ===================== -->
-
-                <div
-                    class="score-conveyor"
-                    role="region"
-                    aria-label="Resultados recientes"
-                >
-
-                    <div class="score-track">
-
-
-                        <div
-                            class="score-group"
-                            aria-hidden="true"
-                        >
-
-
-                            <article class="score-item">
-
-                                <img
-                                    src="smirplay kick.png"
-                                    alt="Escudo Deportivo Escobar"
-                                    class="team-logo"
-                                >
-
-                                <div>
-
-                                    <div class="team-name">
-                                        Deportivo Escobar
-                                    </div>
-
-                                    <div class="match-meta">
-                                        Final • 19 Jul
-                                    </div>
-
-                                </div>
-
-                                <div class="score">
-                                    2 - 1
-                                </div>
-
-                            </article>
-
-
-
-                            <article class="score-item">
-
-                                <img
-                                    src="smirplay.png"
-                                    alt="Escudo Piratas FC"
-                                    class="team-logo"
-                                >
-
-                                <div>
-
-                                    <div class="team-name">
-                                        Piratas FC
-                                    </div>
-
-                                    <div class="match-meta">
-                                        Final • 12 Jul
-                                    </div>
-
-                                </div>
-
-                                <div class="score">
-                                    1 - 2
-                                </div>
-
-                            </article>
-
-
-
-                            <article class="score-item">
-
-                                <img
-                                    src="baner.png"
-                                    alt="Escudo La Cancha United"
-                                    class="team-logo"
-                                >
-
-                                <div>
-
-                                    <div class="team-name">
-                                        La Cancha United
-                                    </div>
-
-                                    <div class="match-meta">
-                                        Amistoso • 05 Jul
-                                    </div>
-
-                                </div>
-
-                                <div class="score">
-                                    0 - 0
-                                </div>
-
-                            </article>
-
-
-
-                            <article class="score-item">
-
-                                <img
-                                    src="smirplay kick.png"
-                                    alt="Escudo Deportivo Escobar"
-                                    class="team-logo"
-                                >
-
-                                <div>
-
-                                    <div class="team-name">
-                                        Deportivo Escobar
-                                    </div>
-
-                                    <div class="match-meta">
-                                        Final • 19 Jul
-                                    </div>
-
-                                </div>
-
-                                <div class="score">
-                                    2 - 1
-                                </div>
-
-                            </article>
-
-
-                        </div>
-
-
-
-                        <div
-                            class="score-group"
-                            aria-hidden="true"
-                        >
-
-
-                            <article class="score-item">
-
-                                <img
-                                    src="smirplay kick.png"
-                                    alt="Escudo Deportivo Escobar"
-                                    class="team-logo"
-                                >
-
-                                <div>
-
-                                    <div class="team-name">
-                                        Deportivo Escobar
-                                    </div>
-
-                                    <div class="match-meta">
-                                        Final • 19 Jul
-                                    </div>
-
-                                </div>
-
-                                <div class="score">
-                                    2 - 1
-                                </div>
-
-                            </article>
-
-
-
-                            <article class="score-item">
-
-                                <img
-                                    src="smirplay.png"
-                                    alt="Escudo Piratas FC"
-                                    class="team-logo"
-                                >
-
-                                <div>
-
-                                    <div class="team-name">
-                                        Piratas FC
-                                    </div>
-
-                                    <div class="match-meta">
-                                        Final • 12 Jul
-                                    </div>
-
-                                </div>
-
-                                <div class="score">
-                                    1 - 2
-                                </div>
-
-                            </article>
-
-
-
-                            <article class="score-item">
-
-                                <img
-                                    src="baner.png"
-                                    alt="Escudo La Cancha United"
-                                    class="team-logo"
-                                >
-
-                                <div>
-
-                                    <div class="team-name">
-                                        La Cancha United
-                                    </div>
-
-                                    <div class="match-meta">
-                                        Amistoso • 05 Jul
-                                    </div>
-
-                                </div>
-
-                                <div class="score">
-                                    0 - 0
-                                </div>
-
-                            </article>
-
-
-
-                            <article class="score-item">
-
-                                <img
-                                    src="smirplay kick.png"
-                                    alt="Escudo Deportivo Escobar"
-                                    class="team-logo"
-                                >
-
-                                <div>
-
-                                    <div class="team-name">
-                                        Deportivo Escobar
-                                    </div>
-
-                                    <div class="match-meta">
-                                        Final • 19 Jul
-                                    </div>
-
-                                </div>
-
-                                <div class="score">
-                                    2 - 1
-                                </div>
-
-                            </article>
-
-
-                        </div>
-
-
-                    </div>
+                <!-- ===================== MARCADORES AUTOMÁTICOS ===================== -->
+
+<div
+    class="score-conveyor"
+    id="score-conveyor"
+    role="region"
+    aria-label="Partidos y resultados de Smirplay"
+>
+
+    <div
+        class="score-track"
+        id="score-track"
+    >
+
+        <!-- PRIMERA COPIA DEL CARRUSEL -->
+
+        <div
+            class="score-group"
+            id="score-group-1"
+            aria-label="Partidos de la semana"
+        >
+
+            <article class="score-item score-cargando">
+
+                <div class="score-loading-text">
+
+                    <strong>
+                        CARGANDO PARTIDOS...
+                    </strong>
+
+                    <span>
+                        Consultando Smirplay
+                    </span>
 
                 </div>
 
+            </article>
 
-            </div>
+        </div>
 
-        </section>
+
+        <!-- SEGUNDA COPIA PARA MOVIMIENTO INFINITO -->
+
+        <div
+            class="score-group"
+            id="score-group-2"
+            aria-hidden="true"
+        ></div>
+
+    </div>
+
+</div>
 
 
 
