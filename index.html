@@ -176,132 +176,126 @@
 
         <!-- ===================== PORTADA ===================== -->
 
-        <section
-            class="hero"
-            id="inicio"
-        >
-
-
-            <img
-                class="hero-fondo"
-                src="baner.png"
-                alt=""
-            >
-
-
-            <div class="hero-sombra"></div>
-
-
-            <div class="hero-contenido contenedor">
-
-
-                <p class="etiqueta">
-
-                    <span class="punto-vivo"></span>
-
-                    SIMULCAST OFICIAL
-
-                </p>
-
-
-                <h1>
-
-                    TRANSMISIONES DE
-
-                    <span>
-                        FÚTBOL EN VIVO
-                    </span>
-
-                </h1>
-
-
-                <p class="hero-descripcion">
-
-                    Vive cada partido en Kick y YouTube directamente desde
-                    el centro de control de Smirplay.
-
-                </p>
-
-
-                <div class="hero-botones">
-
-
-                    <a
-                        href="#en-vivo"
-                        class="boton boton-rojo"
-                    >
-
-                        ▶ Ver transmisión
-
-                    </a>
-
-
-                    <a
-                        href="#anuncios"
-                        class="boton boton-oscuro"
-                    >
-
-                        Próximos partidos
-
-                    </a>
-
-
-                </div>
-
-
-
-                <!-- ===================== MARCADORES AUTOMÁTICOS ===================== -->
-
-<div
-    class="score-conveyor"
-    id="score-conveyor"
-    role="region"
-    aria-label="Partidos y resultados de Smirplay"
+<section
+    class="hero"
+    id="inicio"
 >
 
-    <div
-        class="score-track"
-        id="score-track"
+    <!-- FONDO ORIGINAL -->
+    <img
+        class="hero-fondo"
+        src="baner.png"
+        alt=""
     >
 
-        <!-- PRIMERA COPIA DEL CARRUSEL -->
+    <div class="hero-sombra"></div>
 
-        <div
-            class="score-group"
-            id="score-group-1"
-            aria-label="Partidos de la semana"
-        >
 
-            <article class="score-item score-cargando">
+    <div class="hero-contenido contenedor">
 
-                <div class="score-loading-text">
+        <p class="etiqueta">
 
-                    <strong>
-                        CARGANDO PARTIDOS...
-                    </strong>
+            <span class="punto-vivo"></span>
 
-                    <span>
-                        Consultando Smirplay
-                    </span>
+            SIMULCAST OFICIAL
 
-                </div>
+        </p>
 
-            </article>
+
+        <h1>
+
+            TRANSMISIONES DE
+
+            <span>
+                FÚTBOL EN VIVO
+            </span>
+
+        </h1>
+
+
+        <p class="hero-descripcion">
+
+            Vive cada partido en Kick y YouTube directamente desde
+            el centro de control de Smirplay.
+
+        </p>
+
+
+        <div class="hero-botones">
+
+            <a
+                href="#en-vivo"
+                class="boton boton-rojo"
+            >
+                ▶ Ver transmisión
+            </a>
+
+            <a
+                href="#anuncios"
+                class="boton boton-oscuro"
+            >
+                Próximos partidos
+            </a>
 
         </div>
 
 
-        <!-- SEGUNDA COPIA PARA MOVIMIENTO INFINITO -->
+        <!-- ===================== MARCADORES AUTOMÁTICOS ===================== -->
 
         <div
-            class="score-group"
-            id="score-group-2"
-            aria-hidden="true"
-        ></div>
+            class="score-conveyor"
+            id="score-conveyor"
+            role="region"
+            aria-label="Partidos y resultados de Smirplay"
+        >
+
+            <div
+                class="score-track"
+                id="score-track"
+            >
+
+                <!-- PRIMER GRUPO -->
+
+                <div
+                    class="score-group"
+                    id="score-group-1"
+                    aria-label="Partidos de la semana"
+                >
+
+                    <article class="score-item score-cargando">
+
+                        <div class="score-loading-text">
+
+                            <strong>
+                                CARGANDO PARTIDOS...
+                            </strong>
+
+                            <span>
+                                Consultando Smirplay
+                            </span>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+
+                <!-- COPIA PARA CARRUSEL INFINITO -->
+
+                <div
+                    class="score-group"
+                    id="score-group-2"
+                    aria-hidden="true"
+                ></div>
+
+            </div>
+
+        </div>
 
     </div>
 
-</div>
+</section>
 
 
 
