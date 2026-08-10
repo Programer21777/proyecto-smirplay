@@ -21,6 +21,9 @@ const callbackTikTok =
 const ultimoMvpTikTok =
     require("./api/tiktok/ultimo-mvp");
 
+const marcadores =
+    require("./api/marcadores");
+
 
 /* ===================== CONFIGURACIÓN ===================== */
 
@@ -280,6 +283,24 @@ const servidor =
             ) {
 
                 ultimoMvpTikTok(
+                    req,
+                    res
+                );
+
+                return;
+            }
+
+
+            /* =========================================
+               MARCADORES — GOOGLE SHEETS
+            ========================================= */
+
+            if (
+                url.pathname ===
+                "/api/marcadores"
+            ) {
+
+                marcadores(
                     req,
                     res
                 );
