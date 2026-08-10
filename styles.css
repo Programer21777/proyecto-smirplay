@@ -1711,3 +1711,268 @@ button {
         line-clamp: 3;
     }
 }
+
+/* =========================================================
+   MARCADORES AUTOMÁTICOS SMIRPLAY
+========================================================= */
+
+.score-partido {
+    display: grid;
+
+    grid-template-columns:
+        minmax(115px, 1fr)
+        80px
+        minmax(115px, 1fr);
+
+    align-items: center;
+
+    gap: 10px;
+
+    min-width: 410px;
+
+    padding: 9px 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.07),
+            rgba(255, 255, 255, 0.025)
+        );
+
+    border:
+        1px solid rgba(255, 255, 255, 0.11);
+
+    border-radius: 14px;
+}
+
+
+/* ===================== EQUIPOS ===================== */
+
+.equipo-marcador {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    min-width: 0;
+}
+
+
+/* EQUIPO IZQUIERDO */
+
+.equipo-local {
+    justify-content: flex-start;
+}
+
+
+/* EQUIPO DERECHO */
+
+.equipo-visitante {
+    justify-content: flex-end;
+
+    flex-direction: row-reverse;
+
+    text-align: right;
+}
+
+
+/* ===================== ESCUDOS ===================== */
+
+.score-partido .team-logo {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    object-fit: contain;
+    object-position: center;
+
+    border-radius: 0;
+
+    background: transparent;
+}
+
+
+/* ===================== NOMBRES ===================== */
+
+.score-partido .team-name {
+    min-width: 0;
+
+    color: #ffffff;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    line-height: 1.15;
+
+    text-transform: uppercase;
+
+    overflow: hidden;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+
+/* ===================== CENTRO ===================== */
+
+.centro-marcador {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 3px;
+
+    text-align: center;
+}
+
+
+/* VS O RESULTADO */
+
+.score-partido .score {
+    margin: 0;
+
+    color: #ff3939;
+
+    font-size: 18px;
+    font-weight: 900;
+
+    line-height: 1;
+
+    white-space: nowrap;
+}
+
+
+/* DÍA / HORA / FINAL */
+
+.score-partido .match-meta {
+    color: rgba(255, 255, 255, 0.62);
+
+    font-size: 8px;
+    font-weight: 700;
+
+    line-height: 1.1;
+
+    letter-spacing: 0.3px;
+
+    white-space: nowrap;
+
+    text-transform: uppercase;
+}
+
+
+/* ===================== CARGANDO ===================== */
+
+.score-cargando {
+    min-width: 290px;
+}
+
+.score-loading-text {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+    padding: 4px 8px;
+}
+
+.score-loading-text strong {
+    color: #ffffff;
+
+    font-size: 11px;
+}
+
+.score-loading-text span {
+    color: rgba(255, 255, 255, 0.55);
+
+    font-size: 9px;
+}
+
+
+/* ===================== TABLET / MÓVIL ===================== */
+
+@media (max-width: 768px) {
+
+    .score-conveyor {
+        width: 100%;
+
+        padding:
+            6px 10px;
+    }
+
+
+    .score-partido {
+        grid-template-columns:
+            minmax(95px, 1fr)
+            62px
+            minmax(95px, 1fr);
+
+        min-width: 340px;
+
+        gap: 6px;
+
+        padding:
+            8px 10px;
+    }
+
+
+    .score-partido .team-logo {
+        width: 34px;
+        height: 34px;
+    }
+
+
+    .score-partido .team-name {
+        font-size: 9px;
+    }
+
+
+    .score-partido .score {
+        font-size: 15px;
+    }
+
+
+    .score-partido .match-meta {
+        font-size: 7px;
+    }
+}
+
+
+/* ===================== CELULARES PEQUEÑOS ===================== */
+
+@media (max-width: 480px) {
+
+    .score-partido {
+        grid-template-columns:
+            minmax(82px, 1fr)
+            56px
+            minmax(82px, 1fr);
+
+        min-width: 300px;
+
+        gap: 5px;
+    }
+
+
+    .score-partido .team-logo {
+        width: 30px;
+        height: 30px;
+    }
+
+
+    .score-partido .team-name {
+        font-size: 8px;
+    }
+
+
+    .score-partido .score {
+        font-size: 14px;
+    }
+}
